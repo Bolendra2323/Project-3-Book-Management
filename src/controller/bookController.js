@@ -4,15 +4,55 @@ const userModel = require('../models/userModel')
 const reviewModel = require('../models/reviewModel')
 const mongoose = require('mongoose');
 const moment = require("moment");
+const aws = require("aws-sdk")
 
+
+aws.config.update({
+    accessKeyId: "AKIAY3L35MCRUJ6WPO6J",
+    secretAccessKey: "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",
+    region: "ap-south-1"
+})
+
+let uploadFile = async(file) => {
+        return new Promise(function(resolve, reject) {
+
+            let s3 = new aws.S3({ apiVersion: '2006-03-01' });
+            var uploadParams = {
+                ACL: "public-read",
+                Bucket: "classroom-training-bucket",
+                Key: "abc/" + file.originalname,
+                Body: file.buffer
+            }
+
+
+            s3.upload(uploadParams, function(err, data) {
+                if (err) {
+                    return reject({ "error": err })
+                }
+                // console.log(data)
+                console.log("file uploaded succesfully")
+                return resolve(data.Location)
+            })
+        })
+    }
+    //========================================createBook Api==============================================
 
 // CREATE BOOK API
-
 const createBook = async function(req, res) {
 
         try {
 
             let data = req.body
+            let files = req.files
+            if (files && files.length > 0) {
+
+                var bookCover = await uploadFile(files[0])
+                    //bookData['bookCover'] = bookCover
+
+
+            } else {
+                return res.status(400).send({ msg: "No file found" })
+            }
 
             let { title, excerpt, userId, ISBN, category, subcategory, releasedAt } = data
             console.log(data);
@@ -69,8 +109,8 @@ const createBook = async function(req, res) {
             if (!(/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/.test(releasedAt))) {
                 return res.status(400).send({ status: false, message: "Released date check" })
             }
-
-            // data creation
+            data["bookCover"] = bookCover
+                // data creation
             let createdData = await bookModel.create(data)
             res.status(201).send({ status: true, message: 'Success', data: createdData })
         } catch (error) {
@@ -185,7 +225,7 @@ const updateBooksById = async function(req, res) {
         let bookIdCheck = await bookModel.findOne({ _id: bookId, isDeleted: false });
 
         //Authorization
-        if (!(req.authorIdToken = bookIdCheck.userId)) {
+        if (!(req.authorIdToken == bookIdCheck.userId)) {
             return res.status(401).send({ message: "User is not authorized" });
         }
 

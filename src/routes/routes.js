@@ -5,6 +5,13 @@ const reviewController = require('../controller/reviewController')
 const middleware = require('../middleware/middleware')
 const router = express.Router();
 
+
+
+
+router.get("/test-me", function(req, res) {
+    res.send("My first ever api!")
+})
+
 //=============================================USER API===================================
 
 
@@ -44,7 +51,7 @@ router.post('/books/:bookId/review', reviewController.createReview);
 
 router.put('/books/:bookId/review/:reviewId', reviewController.updateReview)
 
-router.delete('/books/:bookId/review/:reviewId',reviewController.deleteReviewById);
+router.delete('/books/:bookId/review/:reviewId', reviewController.deleteReviewById);
 
 
 
