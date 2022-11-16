@@ -1,5 +1,84 @@
 # Book-Management-Project3
 
+Discussion---> PROJECT-3-REVIEW-DISCUSSION
+
+Project Overview → In this project we were required to implement the backend part of
+
+Book Management . We can relate this Project with Amazon Kindle , where dozens of
+
+Books are available for user to access without giving them any kind of authorization to
+
+edit.Just allowing the users to read.
+
+Problem Statements → It consist of total 3 Models (Book-Model, Review-Model,
+User-Model)
+
+Book-Model→ It consist of 5 API’s (1-Post , 2-Get,1-Put,1-Delete)
+
+Review-Model → It consist of 3 API’s(1-Post, 1-Put, 1-Delete)
+
+User-Model → It consist of 2 API’s Both are post api’s
+
+Used Appropriate Status code , Used middleware for authentication also implemented
+
+authorisation so that only valid user can create,edit, update or delete a book
+
+Used multer which is a node js middleware , and it is used for uploading files.
+
+Approach —>
+
+● Before starting the project we download different dependencies.
+
+● Dependencies like —>
+
+○ Express→ (This will help us in creating different api endpoints),
+
+○ Mongoose→ (This will help us to work with mongodb easily)
+
+○ Nodemon→ (This will help us in restarting the node application whenever
+
+some changes(even the minute change) in the files are noticed in the
+
+
+directory)
+
+○ Multer → (This is basically a node js middleware , and it is used for
+
+uploading files.)
+
+
+● Then we created SRC folder where all other sub folders are stored in a
+
+hierarchical manner.We have created Sub folders like Models, routes, Validators.
+
+Controller, Middleware,
+
+● Initiated the project by creating Schemas for Book, Review, User , then with the
+
+further continuation we have stored end points in route files. Basically route file is
+
+created for storing all the end points .
+
+● Then in the question it was mentioned that only the user of the respective book
+
+can perform the following operation i.e, edit, delete , update. So in order to make
+
+this possible we have created one file called middleware , where the user was
+
+authenticated by using JWT and authorized.
+
+● In controller folder ,we have created files for book, review and user , where it has
+
+their respective API’s . In this folder we have wrote all the functions that were
+
+supposed to perform along with this we have taken care of all the validations in
+
+this folder only.
+
+
+
+*************************************************************************************************************************************************************
+
 We are creating book management project
 Key points
 Create a group database groupXDatabase. You can clean the db you previously used and resue that.
